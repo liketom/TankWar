@@ -2,6 +2,7 @@ import pygame
 
 brickImage          = r"..\image\brick.png"
 ironImage           = r"..\image\iron.png"
+homeImage           = r"..\image\home.png"
 
 class Brick(pygame.sprite.Sprite):
     def __init__(self):
@@ -16,12 +17,22 @@ class Iron(pygame.sprite.Sprite):
         
         self.image = pygame.image.load(ironImage)
         self.rect = self.image.get_rect()
-        
+
+
+class Home(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load(homeImage)
+        self.rect = self.image.get_rect()
+
+
 class Map():
     def __init__(self):
         self.brickGroup = pygame.sprite.Group()
         self.ironGroup  = pygame.sprite.Group()
-        
+        self.homeGroup  = pygame.sprite.Group()
+
         # 数字代表地图中的位置
         # 画砖块
         X1379 = [2, 3, 6, 7, 18, 19, 22, 23]
@@ -63,5 +74,8 @@ class Map():
             self.iron = Iron()
             self.iron.rect.left, self.iron.rect.top = 3 + x * 24, 3 + y * 24
             self.ironGroup.add(self.iron)
-            
-        
+
+        # 画家
+        self.home = Home()
+        self.home.rect.left, self.home.rect.top = 3 + 12 * 24, 3 + 24 * 24
+        self.homeGroup.add(self.home)
