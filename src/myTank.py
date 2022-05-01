@@ -9,15 +9,15 @@ tank_T2_0 = r"..\image\tank_T2_0.png"
 tank_T2_1 = r"..\image\tank_T2_1.png"
 tank_T2_2 = r"..\image\tank_T2_2.png"
 
-       
+
 
 class MyTank(pygame.sprite.Sprite):
     def __init__(self, playerNumber):
         pygame.sprite.Sprite.__init__(self)
-        
+
         # 玩家生命
         self.life = True
-        
+
         #　第几个玩家   坦克的三个等级
         if playerNumber == 1:
             self.tank_L0_image = pygame.image.load(tank_T1_0).convert_alpha()
@@ -28,19 +28,21 @@ class MyTank(pygame.sprite.Sprite):
             self.tank_L1_image = pygame.image.load(tank_T2_1).convert_alpha()
             self.tank_L2_image = pygame.image.load(tank_T2_2).convert_alpha()
         self.level = 0
-        
+
+        self.tank_life = pygame.image.load(r"..\image\tank_T1_num.png").convert_alpha() # 用于显示坦克剩余生命值
         # 初始坦克为0级
         self.tank = self.tank_L0_image
-        
+
         # 运动中的两种图片
         self.tank_R0 = self.tank.subsurface((0, 0),(48, 48))
         self.tank_R1 = self.tank.subsurface((48, 0),(48, 48))
+
         self.rect = self.tank_R0.get_rect()
         if playerNumber == 1:
-            self.rect.left, self.rect.top = 3 + 24 * 8, 3 + 24 * 24 
+            self.rect.left, self.rect.top = 3 + 24 * 8, 3 + 24 * 24
         if playerNumber == 2:
-            self.rect.left, self.rect.top = 3 + 24 * 16, 3 + 24 * 24 
-        
+            self.rect.left, self.rect.top = 3 + 24 * 16, 3 + 24 * 24
+
         # 坦克速度   坦克方向   坦克生命   子弹冷却
         self.speed = 3
         self.dir_x, self.dir_y = 0, -1
@@ -48,12 +50,12 @@ class MyTank(pygame.sprite.Sprite):
         self.bulletNotCooling = True
         self.bullet = bulletClass.Bullet()
         #self.bullet.rect.left, self.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
-    
+
     def shoot(self):
         # 子弹
         self.bullet.life = True
         self.bullet.changeImage(self.dir_x, self.dir_y)
-        
+
         if self.dir_x == 0 and self.dir_y == -1:
             self.bullet.rect.left = self.rect.left + 20
             self.bullet.rect.bottom = self.rect.top + 1
@@ -66,7 +68,7 @@ class MyTank(pygame.sprite.Sprite):
         elif self.dir_x == 1 and self.dir_y == 0:
             self.bullet.rect.left = self.rect.right + 1
             self.bullet.rect.top = self.rect.top + 20
-        
+
         if self.level == 1:
             self.bullet.speed  = 16
             self.bullet.strong = False
@@ -76,8 +78,8 @@ class MyTank(pygame.sprite.Sprite):
         if self.level == 3:
             self.bullet.speed  = 48
             self.bullet.strong = True
-        
-    
+
+
     def levelUp(self):
         if self.level < 2:
             self.level += 1
@@ -89,7 +91,7 @@ class MyTank(pygame.sprite.Sprite):
             self.tank = self.tank_L2_image
         if self.level == 3:
             self.tank = self.tank_L2_image
-            
+
     def levelDown(self):
         if self.level > 0:
             self.level -= 1
@@ -101,8 +103,8 @@ class MyTank(pygame.sprite.Sprite):
             self.tank = self.tank_L1_image
         if self.level == 2:
             self.tank = self.tank_L2_image
-        
-        
+
+
     # 返回True 代表发生碰撞
     def moveUp(self, tankGroup, brickGroup, ironGroup):
         self.rect = self.rect.move(self.speed * 0, self.speed * -1)
