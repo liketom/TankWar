@@ -429,7 +429,6 @@ def main():
                 myTank_T1.bullet.life = False
                 myTank_T1.bullet.rect.left, myTank_T1.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
             if pygame.sprite.spritecollide(myTank_T1.bullet, bgMap.homeGroup, True, None):
-                print("game over!!")
                 myTank_T1.bullet.life = False
                 homeSurvive = False
             # ×Óµ¯ Åö×² brickGroup
@@ -455,6 +454,9 @@ def main():
             if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.brickGroup, True, None):
                 myTank_T2.bullet.life = False
                 myTank_T2.bullet.rect.left, myTank_T2.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
+            if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.homeGroup, True, None):
+                myTank_T2.bullet.life = False
+                homeSurvive = False
             # ×Óµ¯ Åö×² brickGroup
             if myTank_T2.bullet.strong:
                 if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.ironGroup, True, None):
@@ -496,6 +498,9 @@ def main():
                         myTank_T2.rect.left, myTank_T2.rect.top = 3 + 16 * 24, 3 + 24 * 24
                         each.bullet.life = False
 
+                    if pygame.sprite.spritecollide(each.bullet, bgMap.homeGroup, True, None):
+                        each.bullet.life = False
+                        homeSurvive = False
                     # ×Óµ¯ Åö×² brickGroup
                     if pygame.sprite.spritecollide(each.bullet, bgMap.brickGroup, True, None):
                         each.bullet.life = False
