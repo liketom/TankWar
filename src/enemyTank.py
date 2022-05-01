@@ -33,7 +33,6 @@ class EnemyTank(pygame.sprite.Sprite):
 
         self.enemy_3_0 = pygame.image.load(r"..\image\enemy_3_0.png").convert_alpha()
         self.enemy_3_2 = pygame.image.load(r"..\image\enemy_3_2.png").convert_alpha()
-        self.life_num = pygame.image.load(r"..\image\enemy_num.png").convert_alpha()
 
         # 参数:是否携带食物
         self.isred = isred

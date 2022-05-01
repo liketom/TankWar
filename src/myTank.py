@@ -29,7 +29,6 @@ class MyTank(pygame.sprite.Sprite):
             self.tank_L2_image = pygame.image.load(tank_T2_2).convert_alpha()
         self.level = 0
 
-        self.tank_life = pygame.image.load(r"..\image\tank_T1_num.png").convert_alpha() # 用于显示坦克剩余生命值
         # 初始坦克为0级
         self.tank = self.tank_L0_image
 

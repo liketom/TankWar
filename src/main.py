@@ -7,6 +7,7 @@ import wall
 import myTank
 import enemyTank
 import food
+import tip
 
 TankNum = 1  # 坦克数量
 
@@ -41,6 +42,8 @@ def main():
     bgMap = wall.Map()
     # 创建食物/道具 但不显示
     prop = food.Food()
+    # 创建提示所需句柄
+    globalTip =tip.Tip()
     # 创建我方坦克
     myTank_T1 = myTank.MyTank(1)
     allTankGroup.add(myTank_T1)
@@ -57,11 +60,10 @@ def main():
         allEnemyGroup.add(enemy)
         if enemy.isred == True:
             redEnemyGroup.add(enemy)
-            continue
-        if enemy.kind == 3:
+        elif enemy.kind == 3:
             greenEnemyGroup.add(enemy)
-            continue
-        otherEnemyGroup.add(enemy)
+        else:
+            otherEnemyGroup.add(enemy)
     # 敌军坦克出现动画
     appearance_image = pygame.image.load(r"..\image\appear.png").convert_alpha()
     appearance = []
@@ -92,7 +94,8 @@ def main():
     movdir = 0
     moving2 = 0
     movdir2 = 0
-    enemyNumber = 3
+    activateEnemyNumber = 3
+    totalEnemyNumber = 8 # 每关总敌人数
     enemyCouldMove      = True
     switch_R1_R2_image  = True
     homeSurvive         = True
@@ -100,6 +103,7 @@ def main():
     running_T2          = True
     clock = pygame.time.Clock()
     while True:
+        # 失败
         while not homeSurvive or not myTank_T1.life:
             screen.blit(home_destroyed_image, (3 + 12 * 24, 3 + 24 * 24))
             screen.blit(gameover_image, (3 + 12 * 24, 3 + 13 * 24))
@@ -111,6 +115,12 @@ def main():
                     continue
             pygame.display.flip()
             clock.tick(60)
+
+        # 通关
+        if not totalEnemyNumber:
+            print("you win!!!")
+            pygame.quit()
+            sys.exit()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -132,13 +142,13 @@ def main():
 
             # 创建敌方坦克延迟
             if event.type == DELAYEVENT:
-                if enemyNumber < 4:
+                if activateEnemyNumber < 4 and activateEnemyNumber < totalEnemyNumber:
                     enemy = enemyTank.EnemyTank()
                     if pygame.sprite.spritecollide(enemy, allTankGroup, False, None):
                         break
                     allEnemyGroup.add(enemy)
                     allTankGroup.add(enemy)
-                    enemyNumber += 1
+                    activateEnemyNumber += 1
                     if enemy.isred == True:
                         redEnemyGroup.add(enemy)
                     elif enemy.kind == 3:
@@ -295,14 +305,23 @@ def main():
             for each in bgMap.homeGroup:
                 screen.blit(each.image, each.rect)
 
-        # 画剩余生命点
+        # 画剩余敌人
+        j = -1
+        for i in range(totalEnemyNumber):
+            if 0 == i % 2:
+                j += 1
+                screen.blit(globalTip.enemy_life, (27 * 24, 3 + (j * 32)))
+            else:
+                screen.blit(globalTip.enemy_life, (30 + 27 * 24, 3 + (j * 32)))
+
+        # 画坦克1剩余生命值
         j = -1
         for i in range(myTank_T1.life):
             if 0 == i % 2:
                 j += 1
-                screen.blit(myTank_T1.tank_life, (27 * 24, 3 + (j * 32)))
+                screen.blit(globalTip.tank1_life, (27 * 24, 300 + (j * 32)))
             else:
-                screen.blit(myTank_T1.tank_life, (30 + 27 * 24, 3 + (j * 32)))
+                screen.blit(globalTip.tank1_life, (30 + 27 * 24, 300 + (j * 32)))
 
         # 画我方坦克1
         if not (delay % 5):
@@ -379,7 +398,8 @@ def main():
             if pygame.sprite.spritecollide(myTank_T1.bullet, redEnemyGroup, True, None):
                 prop.change()
                 # bang_sound.play()
-                enemyNumber -= 1
+                totalEnemyNumber -= 1
+                activateEnemyNumber -= 1
                 myTank_T1.bullet.life = False
             elif pygame.sprite.spritecollide(myTank_T1.bullet,greenEnemyGroup, False, None):
                 for each in greenEnemyGroup:
@@ -387,7 +407,8 @@ def main():
                         if each.life == 1:
                             pygame.sprite.spritecollide(myTank_T1.bullet,greenEnemyGroup, True, None)
                             # bang_sound.play()
-                            enemyNumber -= 1
+                            totalEnemyNumber -= 1
+                            activateEnemyNumber -= 1
                         elif each.life == 2:
                             each.life -= 1
                             each.tank = each.enemy_3_0
@@ -397,11 +418,13 @@ def main():
                 myTank_T1.bullet.life = False
             elif pygame.sprite.spritecollide(myTank_T1.bullet, otherEnemyGroup, True, None):
                 # bang_sound.play()
-                enemyNumber -= 1
+                totalEnemyNumber -= 1
+                activateEnemyNumber -= 1
                 myTank_T1.bullet.life = False
             #if pygame.sprite.spritecollide(myTank_T1.bullet, allEnemyGroup, True, None):
             #    bang_sound.play()
-            #    enemyNumber -= 1
+            #    totalEnemyNumber -= 1
+            #    activateEnemyNumber -= 1
             #    myTank_T1.bullet.life = False
             # 子弹 碰撞 brickGroup
             if pygame.sprite.spritecollide(myTank_T1.bullet, bgMap.brickGroup, True, None):
@@ -424,7 +447,8 @@ def main():
             # 子弹 碰撞 敌方坦克
             if pygame.sprite.spritecollide(myTank_T2.bullet, allEnemyGroup, True, None):
                 # bang_sound.play()
-                enemyNumber -= 1
+                totalEnemyNumber -= 1
+                activateEnemyNumber -= 1
                 myTank_T2.bullet.life = False
             # 子弹 碰撞 brickGroup
             if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.brickGroup, True, None):
@@ -497,7 +521,8 @@ def main():
                     for each in allEnemyGroup:
                         if pygame.sprite.spritecollide(each, allEnemyGroup, True, None):
                             # bang_sound.play()
-                            enemyNumber -= 1
+                            totalEnemyNumber -= 1
+                            activateEnemyNumber -= 1
                     prop.life = False
                 if prop.kind == 2:  # 敌人静止
                     enemyCouldMove = False
