@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding:gbk -*-
 
 import pygame
 import sys
@@ -7,41 +7,41 @@ import wall
 import myTank
 import enemyTank
 import food
-    
-TankNum = 1  # å¦å…‹æ•°é‡
+
+TankNum = 1  # Ì¹¿ËÊıÁ¿
 
 def main():
     pygame.init()
     pygame.mixer.init()
-    
+
     resolution = 630, 630
     screen = pygame.display.set_mode(resolution)
     pygame.display.set_caption("Tank War ")
-    
-    # åŠ è½½å›¾ç‰‡,éŸ³ä¹,éŸ³æ•ˆ.
+
+    # ¼ÓÔØÍ¼Æ¬,ÒôÀÖ,ÒôĞ§.
     background_image     = pygame.image.load(r"..\image\background.png")
     gameover_image       = pygame.image.load(r"..\image\gameover.png")
     home_destroyed_image = pygame.image.load(r"..\image\home_destroyed.png")
-    
+
     bang_sound          = pygame.mixer.Sound(r"..\music\bang.wav")
     bang_sound.set_volume(1)
     fire_sound           = pygame.mixer.Sound(r"..\music\Gunfire.wav")
     start_sound          = pygame.mixer.Sound(r"..\music\start.wav")
     # start_sound.play()
-    
-    # å®šä¹‰ç²¾çµç»„:å¦å…‹ï¼Œæˆ‘æ–¹å¦å…‹ï¼Œæ•Œæ–¹å¦å…‹ï¼Œæ•Œæ–¹å­å¼¹
+
+    # ¶¨Òå¾«Áé×é:Ì¹¿Ë£¬ÎÒ·½Ì¹¿Ë£¬µĞ·½Ì¹¿Ë£¬µĞ·½×Óµ¯
     allTankGroup     = pygame.sprite.Group()
     mytankGroup      = pygame.sprite.Group()
     allEnemyGroup    = pygame.sprite.Group()
     redEnemyGroup    = pygame.sprite.Group()
     greenEnemyGroup  = pygame.sprite.Group()
-    otherEnemyGroup  = pygame.sprite.Group()  
+    otherEnemyGroup  = pygame.sprite.Group()
     enemyBulletGroup = pygame.sprite.Group()
-    # åˆ›å»ºåœ°å›¾ 
+    # ´´½¨µØÍ¼
     bgMap = wall.Map()
-    # åˆ›å»ºé£Ÿç‰©/é“å…· ä½†ä¸æ˜¾ç¤º
+    # ´´½¨Ê³Îï/µÀ¾ß µ«²»ÏÔÊ¾
     prop = food.Food()
-    # åˆ›å»ºæˆ‘æ–¹å¦å…‹
+    # ´´½¨ÎÒ·½Ì¹¿Ë
     myTank_T1 = myTank.MyTank(1)
     allTankGroup.add(myTank_T1)
     mytankGroup.add(myTank_T1)
@@ -50,7 +50,7 @@ def main():
         allTankGroup.add(myTank_T2)
         mytankGroup.add(myTank_T2)
 
-    # åˆ›å»ºæ•Œæ–¹ å¦å…‹
+    # ´´½¨µĞ·½ Ì¹¿Ë
     for i in range(1, 4):
             enemy = enemyTank.EnemyTank(i)
             allTankGroup.add(enemy)
@@ -62,31 +62,31 @@ def main():
                 greenEnemyGroup.add(enemy)
                 continue
             otherEnemyGroup.add(enemy)
-    # æ•Œå†›å¦å…‹å‡ºç°åŠ¨ç”»
+    # µĞ¾üÌ¹¿Ë³öÏÖ¶¯»­
     appearance_image = pygame.image.load(r"..\image\appear.png").convert_alpha()
     appearance = []
     appearance.append(appearance_image.subsurface(( 0, 0), (48, 48)))
     appearance.append(appearance_image.subsurface((48, 0), (48, 48)))
     appearance.append(appearance_image.subsurface((96, 0), (48, 48)))
-    
-    
-    
-    
-    # è‡ªå®šä¹‰äº‹ä»¶
-    # åˆ›å»ºæ•Œæ–¹å¦å…‹å»¶è¿Ÿ200
+
+
+
+
+    # ×Ô¶¨ÒåÊÂ¼ş
+    # ´´½¨µĞ·½Ì¹¿ËÑÓ³Ù200
     DELAYEVENT = pygame.constants.USEREVENT
     pygame.time.set_timer(DELAYEVENT, 200)
-    # åˆ›å»º æ•Œæ–¹ å­å¼¹å»¶è¿Ÿ1000
+    # ´´½¨ µĞ·½ ×Óµ¯ÑÓ³Ù1000
     ENEMYBULLETNOTCOOLINGEVENT = pygame.constants.USEREVENT + 1
     pygame.time.set_timer(ENEMYBULLETNOTCOOLINGEVENT, 1000)
-    # åˆ›å»º æˆ‘æ–¹ å­å¼¹å»¶è¿Ÿ200
+    # ´´½¨ ÎÒ·½ ×Óµ¯ÑÓ³Ù200
     MYBULLETNOTCOOLINGEVENT = pygame.constants.USEREVENT + 2
     pygame.time.set_timer(MYBULLETNOTCOOLINGEVENT, 200)
-    # æ•Œæ–¹å¦å…‹ é™æ­¢8000
+    # µĞ·½Ì¹¿Ë ¾²Ö¹8000
     NOTMOVEEVENT = pygame.constants.USEREVENT + 3
     pygame.time.set_timer(NOTMOVEEVENT, 8000)
-    
-    
+
+
     delay = 100
     moving = 0
     movdir = 0
@@ -117,21 +117,21 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            
-            # æˆ‘æ–¹å­å¼¹å†·å´äº‹ä»¶
+
+            # ÎÒ·½×Óµ¯ÀäÈ´ÊÂ¼ş
             if event.type == MYBULLETNOTCOOLINGEVENT:
                 myTank_T1.bulletNotCooling = True
-                
-            # æ•Œæ–¹å­å¼¹å†·å´äº‹ä»¶
+
+            # µĞ·½×Óµ¯ÀäÈ´ÊÂ¼ş
             if event.type == ENEMYBULLETNOTCOOLINGEVENT:
                 for each in allEnemyGroup:
                     each.bulletNotCooling = True
-            
-            # æ•Œæ–¹å¦å…‹é™æ­¢äº‹ä»¶
+
+            # µĞ·½Ì¹¿Ë¾²Ö¹ÊÂ¼ş
             if event.type == NOTMOVEEVENT:
                 enemyCouldMove = True
-            
-            # åˆ›å»ºæ•Œæ–¹å¦å…‹å»¶è¿Ÿ
+
+            # ´´½¨µĞ·½Ì¹¿ËÑÓ³Ù
             if event.type == DELAYEVENT:
                 if enemyNumber < 4:
                     enemy = enemyTank.EnemyTank()
@@ -155,7 +155,7 @@ def main():
                 if event.key == pygame.K_c and pygame.KMOD_CTRL:
                     pygame.quit()
                     sys.exit()
-            
+
                 # if event.key == pygame.K_e:
                 #     myTank_T1.levelUp()
                 # if event.key == pygame.K_q:
@@ -179,12 +179,12 @@ def main():
                 #         bgMap.iron = wall.Iron()
                 #         bgMap.iron.rect.left, bgMap.iron.rect.top = 3 + x * 24, 3 + y * 24
                 #         bgMap.ironGroup.add(bgMap.iron)
-                
 
 
-        # æ£€æŸ¥ç”¨æˆ·çš„é”®ç›˜æ“ä½œ
+
+        # ¼ì²éÓÃ»§µÄ¼üÅÌ²Ù×÷
         key_pressed = pygame.key.get_pressed()
-        # ç©å®¶ä¸€çš„ç§»åŠ¨æ“ä½œ
+        # Íæ¼ÒÒ»µÄÒÆ¶¯²Ù×÷
         if moving:
             moving -= 1
             if movdir == 0:
@@ -211,7 +211,7 @@ def main():
                     moving += 1
                 allTankGroup.add(myTank_T1)
                 running_T1 = True
-                
+
         if not moving:
             if key_pressed[pygame.K_w]:
                 moving = 7
@@ -250,8 +250,8 @@ def main():
                 fire_sound.play()
                 myTank_T1.shoot()
                 myTank_T1.bulletNotCooling = False
-                
-        # ç©å®¶äºŒçš„ç§»åŠ¨æ“ä½œ
+
+        # Íæ¼Ò¶şµÄÒÆ¶¯²Ù×÷
         if 1 != TankNum and moving2:
             moving2 -= 1
             if movdir2 == 0:
@@ -274,7 +274,7 @@ def main():
                 myTank_T2.moveRight(allTankGroup, bgMap.brickGroup, bgMap.ironGroup)
                 allTankGroup.add(myTank_T2)
                 running_T2 = True
-                
+
         if 1 != TankNum and not moving2:
             if key_pressed[pygame.K_UP]:
                 allTankGroup.remove(myTank_T2)
@@ -308,24 +308,24 @@ def main():
             if not myTank_T2.bullet.life:
                 # fire_sound.play()
                 myTank_T2.shoot()
-        
-        
-        
-        
-        # ç”»èƒŒæ™¯
+
+
+
+
+        # »­±³¾°
         screen.blit(background_image, (0, 0))
-        # ç”»ç –å—
+        # »­×©¿é
         for each in bgMap.brickGroup:
-            screen.blit(each.image, each.rect)        
-        # èŠ±çŸ³å¤´
+            screen.blit(each.image, each.rect)
+        # »¨Ê¯Í·
         for each in bgMap.ironGroup:
             screen.blit(each.image, each.rect)
-        # ç”»home
+        # »­home
         if homeSurvive:
             for each in bgMap.homeGroup:
                 screen.blit(each.image, each.rect)
 
-        # ç”»æˆ‘æ–¹å¦å…‹1
+        # »­ÎÒ·½Ì¹¿Ë1
         if not (delay % 5):
             switch_R1_R2_image = not switch_R1_R2_image
         if switch_R1_R2_image and running_T1:
@@ -334,7 +334,7 @@ def main():
         else:
             screen.blit(myTank_T1.tank_R1, (myTank_T1.rect.left, myTank_T1.rect.top))
 
-        # ç”»æˆ‘æ–¹å¦å…‹2
+        # »­ÎÒ·½Ì¹¿Ë2
         if 1 != TankNum:
             if switch_R1_R2_image and running_T2:
                 screen.blit(myTank_T2.tank_R0, (myTank_T2.rect.left, myTank_T2.rect.top))
@@ -342,11 +342,11 @@ def main():
             else:
                 screen.blit(myTank_T2.tank_R1, (myTank_T2.rect.left, myTank_T2.rect.top))
 
-        # ç”»æ•Œæ–¹å¦å…‹
+        # »­µĞ·½Ì¹¿Ë
         for each in allEnemyGroup:
-            # åˆ¤æ–­5æ¯›é’±ç‰¹æ•ˆæ˜¯å¦æ’­æ”¾            
+            # ÅĞ¶Ï5Ã«Ç®ÌØĞ§ÊÇ·ñ²¥·Å
             if each.flash:
-                #ã€€åˆ¤æ–­ç”»å·¦åŠ¨ä½œè¿˜æ˜¯å³åŠ¨ä½œ
+                #¡¡ÅĞ¶Ï»­×ó¶¯×÷»¹ÊÇÓÒ¶¯×÷
                 if switch_R1_R2_image:
                     screen.blit(each.tank_R0, (each.rect.left, each.rect.top))
                     if enemyCouldMove:
@@ -358,9 +358,9 @@ def main():
                     if enemyCouldMove:
                         allTankGroup.remove(each)
                         each.move(allTankGroup, bgMap.brickGroup, bgMap.ironGroup)
-                        allTankGroup.add(each)                    
+                        allTankGroup.add(each)
             else:
-                # æ’­æ”¾5æ¯›é’±ç‰¹æ•ˆ
+                # ²¥·Å5Ã«Ç®ÌØĞ§
                 if each.times > 0:
                     each.times -= 1
                     if each.times <= 10:
@@ -383,20 +383,20 @@ def main():
                         screen.blit(appearance[0], (3 + each.x * 12 * 24, 3))
                 if each.times == 0:
                     each.flash = True
-      
-                 
-        # ç»˜åˆ¶æˆ‘æ–¹å­å¼¹1
+
+
+        # »æÖÆÎÒ·½×Óµ¯1
         if myTank_T1.bullet.life:
-            myTank_T1.bullet.move()    
+            myTank_T1.bullet.move()
             screen.blit(myTank_T1.bullet.bullet, myTank_T1.bullet.rect)
-            # å­å¼¹ ç¢°æ’ å­å¼¹
+            # ×Óµ¯ Åö×² ×Óµ¯
             for each in enemyBulletGroup:
                 if each.life:
                     if pygame.sprite.collide_rect(myTank_T1.bullet, each):
                         myTank_T1.bullet.life = False
                         each.life = False
                         pygame.sprite.spritecollide(myTank_T1.bullet, enemyBulletGroup, True, None)
-            # å­å¼¹ ç¢°æ’ æ•Œæ–¹å¦å…‹
+            # ×Óµ¯ Åö×² µĞ·½Ì¹¿Ë
             if pygame.sprite.spritecollide(myTank_T1.bullet, redEnemyGroup, True, None):
                 prop.change()
                 bang_sound.play()
@@ -419,12 +419,12 @@ def main():
             elif pygame.sprite.spritecollide(myTank_T1.bullet, otherEnemyGroup, True, None):
                 bang_sound.play()
                 enemyNumber -= 1
-                myTank_T1.bullet.life = False    
+                myTank_T1.bullet.life = False
             #if pygame.sprite.spritecollide(myTank_T1.bullet, allEnemyGroup, True, None):
             #    bang_sound.play()
             #    enemyNumber -= 1
             #    myTank_T1.bullet.life = False
-            # å­å¼¹ ç¢°æ’ brickGroup
+            # ×Óµ¯ Åö×² brickGroup
             if pygame.sprite.spritecollide(myTank_T1.bullet, bgMap.brickGroup, True, None):
                 myTank_T1.bullet.life = False
                 myTank_T1.bullet.rect.left, myTank_T1.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
@@ -432,126 +432,126 @@ def main():
                 print("game over!!")
                 myTank_T1.bullet.life = False
                 homeSurvive = False
-            # å­å¼¹ ç¢°æ’ brickGroup
+            # ×Óµ¯ Åö×² brickGroup
             if myTank_T1.bullet.strong:
                 if pygame.sprite.spritecollide(myTank_T1.bullet, bgMap.ironGroup, True, None):
                     myTank_T1.bullet.life = False
                     myTank_T1.bullet.rect.left, myTank_T1.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
-            else:    
+            else:
                 if pygame.sprite.spritecollide(myTank_T1.bullet, bgMap.ironGroup, False, None):
                     myTank_T1.bullet.life = False
                     myTank_T1.bullet.rect.left, myTank_T1.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
-        
-        # ç»˜åˆ¶æˆ‘æ–¹å­å¼¹2
+
+        # »æÖÆÎÒ·½×Óµ¯2
         if 1 != TankNum and myTank_T2.bullet.life:
-            myTank_T2.bullet.move()    
+            myTank_T2.bullet.move()
             screen.blit(myTank_T2.bullet.bullet, myTank_T2.bullet.rect)
-            # å­å¼¹ ç¢°æ’ æ•Œæ–¹å¦å…‹
+            # ×Óµ¯ Åö×² µĞ·½Ì¹¿Ë
             if pygame.sprite.spritecollide(myTank_T2.bullet, allEnemyGroup, True, None):
                 bang_sound.play()
                 enemyNumber -= 1
                 myTank_T2.bullet.life = False
-            # å­å¼¹ ç¢°æ’ brickGroup
+            # ×Óµ¯ Åö×² brickGroup
             if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.brickGroup, True, None):
                 myTank_T2.bullet.life = False
                 myTank_T2.bullet.rect.left, myTank_T2.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
-            # å­å¼¹ ç¢°æ’ brickGroup
+            # ×Óµ¯ Åö×² brickGroup
             if myTank_T2.bullet.strong:
                 if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.ironGroup, True, None):
                     myTank_T2.bullet.life = False
                     myTank_T2.bullet.rect.left, myTank_T2.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
-            else:    
+            else:
                 if pygame.sprite.spritecollide(myTank_T2.bullet, bgMap.ironGroup, False, None):
                     myTank_T2.bullet.life = False
                     myTank_T2.bullet.rect.left, myTank_T2.bullet.rect.right = 3 + 12 * 24, 3 + 24 * 24
-        
 
-        # ç»˜åˆ¶æ•Œäººå­å¼¹
+
+        # »æÖÆµĞÈË×Óµ¯
         for each in allEnemyGroup:
-            # å¦‚æœå­å¼¹æ²¡æœ‰ç”Ÿå‘½ï¼Œåˆ™èµ‹äºˆå­å¼¹ç”Ÿå‘½
+            # Èç¹û×Óµ¯Ã»ÓĞÉúÃü£¬Ôò¸³Óè×Óµ¯ÉúÃü
             if not each.bullet.life and each.bulletNotCooling and enemyCouldMove:
                 enemyBulletGroup.remove(each.bullet)
                 each.shoot()
                 enemyBulletGroup.add(each.bullet)
                 each.bulletNotCooling = False
-            # å¦‚æœ5æ¯›é’±ç‰¹æ•ˆæ’­æ”¾å®Œæ¯• å¹¶ä¸” å­å¼¹å­˜æ´» åˆ™ç»˜åˆ¶æ•Œæ–¹å­å¼¹
+            # Èç¹û5Ã«Ç®ÌØĞ§²¥·ÅÍê±Ï ²¢ÇÒ ×Óµ¯´æ»î Ôò»æÖÆµĞ·½×Óµ¯
             if each.flash:
                 if each.bullet.life:
-                    # å¦‚æœæ•Œäººå¯ä»¥ç§»åŠ¨
+                    # Èç¹ûµĞÈË¿ÉÒÔÒÆ¶¯
                     if enemyCouldMove:
                         each.bullet.move()
                     screen.blit(each.bullet.bullet, each.bullet.rect)
-                    # å­å¼¹ ç¢°æ’ æˆ‘æ–¹å¦å…‹
+                    # ×Óµ¯ Åö×² ÎÒ·½Ì¹¿Ë
                     if pygame.sprite.collide_rect(each.bullet, myTank_T1):
                         myTank_T1.life -= 1
                         print("Tank1 life have", myTank_T1.life)
                         bang_sound.play()
-                        myTank_T1.rect.left, myTank_T1.rect.top = 3 + 8 * 24, 3 + 24 * 24 
+                        myTank_T1.rect.left, myTank_T1.rect.top = 3 + 8 * 24, 3 + 24 * 24
                         each.bullet.life = False
-                        moving = 0  # é‡ç½®ç§»åŠ¨æ§åˆ¶å‚æ•°
+                        moving = 0  # ÖØÖÃÒÆ¶¯¿ØÖÆ²ÎÊı
                         for i in range(myTank_T1.level+1):
                             myTank_T1.levelDown()
                     if 1 != TankNum and pygame.sprite.collide_rect(each.bullet, myTank_T2):
                         bang_sound.play()
-                        myTank_T2.rect.left, myTank_T2.rect.top = 3 + 16 * 24, 3 + 24 * 24 
+                        myTank_T2.rect.left, myTank_T2.rect.top = 3 + 16 * 24, 3 + 24 * 24
                         each.bullet.life = False
 
-                    # å­å¼¹ ç¢°æ’ brickGroup
+                    # ×Óµ¯ Åö×² brickGroup
                     if pygame.sprite.spritecollide(each.bullet, bgMap.brickGroup, True, None):
                         each.bullet.life = False
-                    # å­å¼¹ ç¢°æ’ ironGroup
+                    # ×Óµ¯ Åö×² ironGroup
                     if each.bullet.strong:
                         if pygame.sprite.spritecollide(each.bullet, bgMap.ironGroup, True, None):
                             each.bullet.life = False
-                    else:    
+                    else:
                         if pygame.sprite.spritecollide(each.bullet, bgMap.ironGroup, False, None):
                             each.bullet.life = False
-             
-        # æœ€åç”»é£Ÿç‰©/é“å…·
+
+        # ×îºó»­Ê³Îï/µÀ¾ß
         if prop.life:
             screen.blit(prop.image, prop.rect)
-            # æˆ‘æ–¹å¦å…‹ç¢°æ’ é£Ÿç‰©/é“å…·
+            # ÎÒ·½Ì¹¿ËÅö×² Ê³Îï/µÀ¾ß
             if pygame.sprite.collide_rect(myTank_T1, prop):
-                if prop.kind == 1:  # æ•Œäººå…¨æ¯
+                if prop.kind == 1:  # µĞÈËÈ«»Ù
                     for each in allEnemyGroup:
                         if pygame.sprite.spritecollide(each, allEnemyGroup, True, None):
                             bang_sound.play()
                             enemyNumber -= 1
                     prop.life = False
-                if prop.kind == 2:  # æ•Œäººé™æ­¢
+                if prop.kind == 2:  # µĞÈË¾²Ö¹
                     enemyCouldMove = False
                     prop.life = False
-                if prop.kind == 3:  # å­å¼¹å¢å¼º
+                if prop.kind == 3:  # ×Óµ¯ÔöÇ¿
                     myTank_T1.bullet.strong = True
                     prop.life = False
-                if prop.kind == 4:  # å®¶å¾—åˆ°ä¿æŠ¤
+                if prop.kind == 4:  # ¼ÒµÃµ½±£»¤
                     for x, y in [(11,23),(12,23),(13,23),(14,23),(11,24),(14,24),(11,25),(14,25)]:
                         bgMap.iron = wall.Iron()
                         bgMap.iron.rect.left, bgMap.iron.rect.top = 3 + x * 24, 3 + y * 24
-                        bgMap.ironGroup.add(bgMap.iron)                
+                        bgMap.ironGroup.add(bgMap.iron)
                     prop.life = False
-                if prop.kind == 5:  # å¦å…‹æ— æ•Œ
+                if prop.kind == 5:  # Ì¹¿ËÎŞµĞ
                     prop.life = False
                     pass
-                if prop.kind == 6:  # å¦å…‹å‡çº§
+                if prop.kind == 6:  # Ì¹¿ËÉı¼¶
                     myTank_T1.levelUp()
                     prop.life = False
-                if prop.kind == 7:  # å¦å…‹ç”Ÿå‘½+1
+                if prop.kind == 7:  # Ì¹¿ËÉúÃü+1
                     myTank_T1.life += 1
                     prop.life = False
-                    
-            
-             
-                     
-        # å»¶è¿Ÿ
+
+
+
+
+        # ÑÓ³Ù
         delay -= 1
         if not delay:
-            delay = 100    
-        
+            delay = 100
+
         pygame.display.flip()
         clock.tick(60)
-    
-    
+
+
 if __name__ == "__main__":
     try:
         main()

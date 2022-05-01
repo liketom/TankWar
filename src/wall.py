@@ -33,8 +33,8 @@ class Map():
         self.ironGroup  = pygame.sprite.Group()
         self.homeGroup  = pygame.sprite.Group()
 
-        # æ•°å­—ä»£è¡¨åœ°å›¾ä¸­çš„ä½ç½®
-        # ç”»ç –å—
+        # Êı×Ö´ú±íµØÍ¼ÖĞµÄÎ»ÖÃ
+        # »­×©¿é
         X1379 = [2, 3, 6, 7, 18, 19, 22, 23]
         Y1379 = [2, 3, 4, 5, 6, 7, 8, 9, 10, 17, 18, 19, 20, 21, 22, 23]
         X28 = [10, 11, 14, 15]
@@ -69,13 +69,13 @@ class Map():
             self.brick.rect.left, self.brick.rect.top = 3 + x * 24, 3 + y * 24
             self.brickGroup.add(self.brick)
         
-        # ç”»çŸ³å¤´
+        # »­Ê¯Í·
         for x, y in [(0,14),(1,14),(12,6),(13,6),(12,7),(13,7),(24,14),(25,14)]:
             self.iron = Iron()
             self.iron.rect.left, self.iron.rect.top = 3 + x * 24, 3 + y * 24
             self.ironGroup.add(self.iron)
 
-        # ç”»å®¶
+        # »­¼Ò
         self.home = Home()
         self.home.rect.left, self.home.rect.top = 3 + 12 * 24, 3 + 24 * 24
         self.homeGroup.add(self.home)
